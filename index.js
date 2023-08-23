@@ -73,7 +73,7 @@ app.use(
     }).single("image"))
 
 
-    app.get("/images", function (req, res, next) {
+    app.get("./images", function (req, res, next) {
         // Assuming you want to send a response, for example, render an HTML page
         res.render("images"); // You should have a corresponding view named "images.ejs" or similar
     
