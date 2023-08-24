@@ -9,14 +9,22 @@ const createService = asyncHandler(async (req, res) => {
             return res.status(400).json({ message: 'Image is required' });
         }
         
+        const serverDomain = 'https://new-solutions-api.onrender.com'; // Change this to your actual server domain
+
         const newService = await Service.create({
             title: req.body.title,
             description: req.body.description,
             image: req.file.filename
         });
-
-        console.log(req.file)
-        res.json(newService);
+        
+        console.log(req.file);
+        
+        // Construct the image URL using the server's domain and the filename
+        const imageUrl = `${serverDomain}/images/${req.file.filename}`;
+        
+        // Return the new service data along with the image URL
+        res.json({ newService, imageUrl });
+        
     } catch (error) {
         console.error(error);
         throw new Error(error);
