@@ -14,16 +14,11 @@ const createService = asyncHandler(async (req, res) => {
         const newService = await Service.create({
             title: req.body.title,
             description: req.body.description,
-            image: req.file.filename
+            image: `${serverDomain}/images/${req.file.filename}`
         });
-        
-        console.log(req.file);
-        
-        // Construct the image URL using the server's domain and the filename
-        const imageUrl = `${serverDomain}/images/${req.file.filename}`;
-        
+                
         // Return the new service data along with the image URL
-        res.json({ newService, imageUrl });
+        res.json({ newService });
         
     } catch (error) {
         console.error(error);
