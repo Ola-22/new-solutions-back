@@ -8,11 +8,13 @@ const createBlog = asyncHandler(async(req, res) => {
             return res.status(400).json({message: "The Image Is Required"})
         }
 
+        const serverDomain = 'https://new-solutions-api.onrender.com'; // Change this to your actual server domain
+
         const newBlog = await Blog.create({
             description: req.body.description,
             title: req.body.title,
-            image: req.file.filename
-        })
+            image: `${serverDomain}/images/${req.file.filename}`,
+        });
         res.json(newBlog)
 
     } catch(error){
@@ -110,8 +112,10 @@ const updateBlog = asyncHandler(async (req, res) => {
         description: req.body.description
       };
   
+      const serverDomain = 'https://new-solutions-api.onrender.com';
+
       if (req.file) {
-        updatedFields.image = req.file.filename;
+        updatedFields.image = `${serverDomain}/images/${req.file.filename}`;
       }
   
       const getBlog = await Blog.findByIdAndUpdate(id, updatedFields, { new: true });

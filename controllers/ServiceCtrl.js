@@ -109,8 +109,10 @@ const updateService = asyncHandler(async (req, res) => {
         title: req.body.title,
       };
   
+      const serverDomain = 'https://new-solutions-api.onrender.com';
+
       if (req.file) {
-        updatedFields.image = req.file.filename;
+        updatedFields.image = `${serverDomain}/images/${req.file.filename}`;
       }
   
       const getService = await Service.findByIdAndUpdate(id, updatedFields, { new: true });

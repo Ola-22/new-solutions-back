@@ -8,12 +8,14 @@ const createEmployee = asyncHandler(async(req, res) => {
             return res.status(400).json({message: "The Image Is Required"})
         }
 
+        const serverDomain = 'https://new-solutions-api.onrender.com'; // Change this to your actual server domain
+
         const newEmployee = await Employee.create({
             firstname: req.body.firstname,
             lastname: req.body.lastname,
-            image: req.file.filename,
+            image: `${serverDomain}/images/${req.file.filename}`,
             job: req.body.job
-        })
+        });
         res.json(newEmployee)
 
     } catch(error){
@@ -107,9 +109,11 @@ const updateEmployee = asyncHandler(async (req, res) => {
         lastname: req.body.lastname,
         job: req.body.job
       };
-  
+
+      const serverDomain = 'https://new-solutions-api.onrender.com';
+
       if (req.file) {
-        updatedFields.image = req.file.filename;
+        updatedFields.image = `${serverDomain}/images/${req.file.filename}`;
       }
   
       const getEmployee = await Employee.findByIdAndUpdate(id, updatedFields, { new: true });

@@ -8,11 +8,13 @@ const createProject = asyncHandler(async (req, res) => {
         // if (!req.file) {
         //     return res.status(400).json({ message: 'Image is required' });
         // }
-        
+    
+        const serverDomain = 'https://new-solutions-api.onrender.com'; // Change this to your actual server domain
+
         const newProject = await Project.create({
             title: req.body.title,
             description: req.body.description,
-            image: req.file.filename,
+            image: `${serverDomain}/images/${req.file.filename}`,
             type: req.body.type
         });
 
@@ -114,9 +116,11 @@ const updateProject = asyncHandler(async (req, res) => {
         description: req.body.description,
         type: req.body.type
       };
-  
+
+      const serverDomain = 'https://new-solutions-api.onrender.com';
+
       if (req.file) {
-        updatedFields.image = req.file.filename;
+        updatedFields.image = `${serverDomain}/images/${req.file.filename}`;
       }
   
       const getProject = await Project.findByIdAndUpdate(id, updatedFields, { new: true });
