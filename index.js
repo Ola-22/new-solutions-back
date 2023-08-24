@@ -44,7 +44,7 @@ const fileFilter = (req, file, callback) => {
 const fileStorage = multer.diskStorage({
     destination: (req, file, callback) => {
         console.log("destination")
-        callback(null, "./images")
+        callback(null, "images/")
     },
     // destination: "images",
     filename: (req, file, callback) => {
@@ -54,7 +54,11 @@ const fileStorage = multer.diskStorage({
         callback(null, uniqueSuffix + "-" + file.originalname)
     }
 })
-app.use(express.static(path.join(__dirname, "images")))
+
+let upload = multer({
+    storage: fileStorage
+})
+
 
 // app.use: multer
 // Content-Type: multipart/form-data (multipart)
@@ -73,12 +77,9 @@ app.use(
     }).single("image"))
 
 
-    app.get("./images", function (req, res, next) {
-        // Assuming you want to send a response, for example, render an HTML page
-        res.render("images"); // You should have a corresponding view named "images.ejs" or similar
-    
-        // If you want to send a JSON response, you could do something like this:
-        // res.json({ message: "Images endpoint reached" });
+    app.get("/images", function (req, res, next) {
+        res.render("images"); 
+
     });
     
 app.use("/api/user", authRouter)
@@ -88,8 +89,14 @@ app.use("/api/employee", employeeRouter)
 app.use("/api/blog", blogRouter)
 app.use("/api/settings", settingsRouter)
 
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
+
+
 app.use(notFound)
 app.use(errorHandler)
 app.listen(PORT, () => {
     console.log(`Server is running at PORT ${PORT}`)
 })
+
+module.exports = {upload}
