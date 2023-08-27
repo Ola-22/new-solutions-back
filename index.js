@@ -37,7 +37,8 @@ const fileFilter = (req, file, callback) => {
     ];
 
     const acceptFile = allowedMimeTypes.includes(file.mimetype);
-    callback(null, acceptFile);
+    // callback(null, acceptFile);
+    callback(null, true)
 };
 
 // fileStorage: مكان التخزين للملف والاسم المخزن فيه الملف
